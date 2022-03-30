@@ -1,0 +1,121 @@
+---
+title: "Spring Break Activity"
+author: "Emily Murphy, Katie Saldivar, Sasha Tafolla"
+date: "3/30/2022"
+output: html_document
+---
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+library(caret)
+library(lattice)
+Fullerton <- read.csv("FullertonHousing")
+
+```
+
+## Q3
+
+
+
+```{r Q3, echo=TRUE}
+Fullerton <- data.frame(FullertonHousing)
+
+q3ctrl_A <- trainControl(method = "cv", number = 5)
+q3model_A <- train(PRICE ~ BEDS + BATHS, data=Fullerton, method = "lm", trControl = q3ctrl_A)
+
+print(q3model_A)
+
+q3ctrl_B <- trainControl(method = "cv", number = 5)
+q3model_B <- train(PRICE ~ BEDS + SQUARE_FEET, data=Fullerton, 
+                   method="lm", trControl = q3ctrl_B)
+
+print(q3model_B)
+
+q3ctrl_C <- trainControl(method = "cv", number = 5)
+q3model_C <- train(PRICE ~ BEDS + YEAR_BUILT, data=Fullerton, 
+                   method = "lm", trControl = q3ctrl_C)
+
+print(q3model_C)
+
+q3ctrl_D <- trainControl(method = "cv", number = 5)
+q3model_D <- train(PRICE ~ BATHS + SQUARE_FEET, data=Fullerton, 
+                   method = "lm", trControl = q3ctrl_D)
+
+print(q3model_D)
+
+q3ctrl_E <- trainControl(method = "cv", number = 5)
+q3model_E <- train(PRICE ~ BATHS + YEAR_BUILT, data=Fullerton, 
+                   method = "lm", trControl = q3ctrl_E)
+
+print(q3model_E)
+
+q3ctrl_F <- trainControl(method= "cv", number = 5)
+q3model_F <- train(PRICE ~ SQUARE_FEET + YEAR_BUILT, data=Fullerton,
+                   method = "lm", trControl = q3ctrl_F)
+
+print(q3model_F)
+```
+
+Each of the models above use a combination of two predictors to estimate the response, which is price of the home. The RMSE, or the residual mean squared error is the approximate error that the model produces in dollars. The closer this value is to zero, the smaller the error and thus the better the model is at predicting price. 
+
+To predict the price of the home when using:
+
+A. the number of bedrooms and the number of bathrooms as the predictors (q3model_A), the RMSE is $191,359.50.
+
+B. the number of bedrooms and the square feet of the home as predictors (q3model_B), the RMSE is $130,432
+
+C. the number of bedrooms and the year the home was built as predictors (q3model_C), the RMSE is $198,731
+
+D. the number of bathrooms and the square feet of the home as predictors (q3model_D), the RMSE is $132,384.90
+
+E. the number of bathrooms and the year the home was built as predictors (q3model_E), the RMSE is $208,528.6
+
+F. the square feet of the home and the year the home was built as predictors (q3model_F), the RMSE is $128,218.20
+
+Based on these six values, the model that has the smallest error and thus is the better model is the model that uses the square feet of the home and the year the home was built to predict the price of the home (q3model_F)
+
+## Q4
+
+
+```{r q4, echo=TRUE}
+q4ctrl_A <- trainControl(method = "cv", number = 5)
+q4model_A <- train(PRICE ~ BEDS + BATHS + SQUARE_FEET, data = Fullerton,
+                   method = "lm", trControl = q4ctrl_A)
+
+print(q4model_A)
+
+q4ctrl_B <- trainControl(method = "cv", number = 5)
+q4model_B <- train(PRICE ~ BEDS + BATHS + YEAR_BUILT, data = Fullerton,
+                   method = "lm", trControl = q4ctrl_B)
+
+print(q4model_B)
+
+q4ctrl_C <- trainControl(method = "cv", number = 5)
+q4model_C <- train(PRICE ~ YEAR_BUILT + BATHS + SQUARE_FEET, data = Fullerton,
+                   method = "lm", trControl = q4ctrl_C)
+
+print(q4model_C)
+
+q4ctrl_D <- trainControl(method = "cv", number = 5)
+q4model_D <- train(PRICE ~ BEDS + YEAR_BUILT + SQUARE_FEET, data = Fullerton,
+                   method = "lm", trControl = q4ctrl_D)
+
+print(q4model_D)
+```
+
+Each of the models above use a combination of three predictors to estimate the response, which is price of the home.
+
+To predict the price of the home when using:
+
+A. the number of bedrooms, the number of bathrooms, and the square feet of the home as predictors (q4model_A), the RMSE is $131,357.90
+
+B. the number of bedrooms, the number of bathrooms, and the year the home was built as predictors (q4model_B), the RMSE is $190,245.70
+
+C. the year the home was built, the number of bathrooms, and the square feet of the home as predictors (q4model_C), the RMSE is $126,760.10
+
+D. the number of bedrooms, the year the home was built, and the square feet of the home as predictors (q4model_D), the RMSE is $130,797.80
+
+Based on these four values, the model that has the smallest error and thus is the better model is the one that uses the year the home was built, the number of bathrooms, and the square feet of the home to predict the price of the home (q4model_C)
+
